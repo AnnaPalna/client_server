@@ -1,0 +1,55 @@
+body {
+  background: linear-gradient(45deg, rgba(2,0,36,1) 1%, rgba(9,9,121,0.2581626400560224) 33%, rgba(0,212,255,0.72875087535014) 56%);
+  margin: 0;
+  padding: 20px;
+}
+
+.dropzone {
+  border: 2px dashed rgba(255,255,255,0.5);
+  border-radius: 10px;
+  padding: 20px 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgb(10, 113, 10);
+  font-weight: 500;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.dropzone.active {
+  border-color:#fff;
+}
+
+.files {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.file {
+  text-decoration:none;
+  color: rgba(255,255,255,0.8);
+  display:block;
+  background-color: #41415d;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px;
+  position:relative;
+  overflow: hidden;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.file .progress {
+  background-color: rgba(80,80,120, .8);
+  position: absolute;
+  inset:0;
+  width:0;
+  padding-top: 10px;
+  text-align: right;
+  height: 100%;
+}
+
+.file .progress.done{
+  top: 100px;
+}
