@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -74,9 +74,10 @@ function Home() {
     if (errorItems?.length) {
       return (
         errorItems.map(item => (
-          <span className='text-danger'>
-          {item.msg}, 
-        </span>
+          // eslint-disable-next-line react/jsx-key
+          <div className='text-danger'>
+            {item.msg}
+          </div>
         ))
       )
     }
@@ -181,7 +182,7 @@ function Home() {
           </div>
           <div className='mb-3'>
             <label htmlFor='age'>Age</label>
-            <input type='number' value={values.age}  placeholder='Enter nickname' className='form-control rounded-0' name="age" onChange={handleInput}/>
+            <input type='number' value={values.age}  placeholder='Enter age' className='form-control rounded-0' name="age" onChange={handleInput}/>
             {showError('age')}
           </div>
           <div className='mb-3'>
@@ -217,6 +218,7 @@ function Home() {
             }
           }
           return (
+            // eslint-disable-next-line react/jsx-key
             <a className="file" target="_blank" href={ 'http://localhost:9000/uploads/' + file.finalFilename} rel="noreferrer">
               <div className="name">{file.name}</div>
               <div className={"progress " + (progress === 100 ? 'done' : '')} style={{width:progress+'%'}}>{progress}%</div>

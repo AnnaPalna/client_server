@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -53,9 +53,10 @@ function Login() {
     if (errorItems?.length) {
       return (
         errorItems.map(item => (
-          <span className='text-danger'>
-          {item.msg}, 
-        </span>
+          // eslint-disable-next-line react/jsx-key
+          <div className='text-danger'>
+            {item.msg}
+          </div>
         ))
       )
     }

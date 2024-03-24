@@ -36,19 +36,22 @@ const users = [{
 app.get('/', (req, res) => {
   if (req.session.username) {
     console.log('! Session already started')
-    return res.json({valid: true, username: req.session.username})
+    // может надо на фронте куда-то сохранить username
+    return res.json({ valid: true, username: req.session.username })
   } else {
     console.log('! You should login firstly')
-    return res.json({valid: false})
+    return res.json({ valid: false })
   }
 })
 
 app.post('/login', [
   check('password')
     .notEmpty().withMessage('Password cannot be empty')
+    .bail()
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,20}$/).withMessage('Password must contain at least eight characters, at least one number and both lower and uppercase letters and special characters'),
   check('email')
     .notEmpty().withMessage('Email cannot be empty')
+    .bail()
     .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).withMessage('Incorrect email format')
 ], (req, res) => {
 
@@ -71,7 +74,7 @@ app.post('/login', [
     // res.set('Set-Cookie', `session=${sessionId}`)
     return res.send("Success")
   } else {
-    return res.json({ errors: [{path: 'email', msg: 'Email and/or password is not correct'}, {path: 'password', msg: 'Email and/or password is not correct'}]})
+    return res.json({ errors: [{ path: 'email', msg: 'Email and/or password is not correct' }, { path: 'password', msg: 'Email and/or password is not correct' }]})
     // return res.json("Failed")
   }
 })
@@ -87,13 +90,19 @@ app.get('/logout', (req, res) => {
 
 app.post('/send_form', [
   check('nickname')
-    .notEmpty().withMessage('nickname cannot be empty')
-    .isLength({min: 5}).trim().withMessage('Name must have more than 5 characters'),
+    .notEmpty().withMessage('Nickname cannot be empty')
+    .bail()
+    .trim()
+    .isLength({ min: 5 }).trim().withMessage('Name must have more than 5 characters'),
   check('age')
-    .notEmpty().withMessage('age cannot be empty'),
+    .notEmpty().withMessage('Age cannot be empty')
+    .bail()
+    .matches(/^([1-9]|([1-9][0-9])|100)$/).withMessage('Age is incorrect'),
   check('patronus')
-    .notEmpty().withMessage('patronus cannot be empty')
-    .matches(/[a-z]/i).withMessage('should contain only latin symbols'),
+    .notEmpty().withMessage('Patronus cannot be empty')
+    .bail()
+    .matches(/[a-z]/i).withMessage('Should contain only latin symbols')
+    .isLength({ min: 2 }).trim().withMessage('Patronus must have more than 5 characters')
 ], (req, res) => {
 
   const errors = validationResult(req)
@@ -106,7 +115,7 @@ app.post('/send_form', [
 })
 
 // UPLOADING FILE
-app.use(bodyParser.raw({type:'application/octet-stream', limit:'100mb'}))
+app.use(bodyParser.raw({ type:'application/octet-stream', limit:'100mb' }))
 
 app.use('/uploads', express.static('uploads'));
 
