@@ -18,29 +18,27 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(session({
+  key: 'userId',
   secret: 'secret',
   resave: false,
   saveUninitialized: false,
   cookie: {
     secure: false,
-    maxAge: 1000 * 60 * 60
+    maxAge: 24 * 60 * 60
   }
 }))
 
-// const sessions = {}
-
 const users = [{
-  name: 'Hagrid', email: 'hagrid1@gmail.com', password: 'Hogwarts22'
+  id: 1, name: 'Hagrid', email: 'hagrid1@gmail.com', password: 'Hogwarts22'
 }]
 
 app.get('/', (req, res) => {
-  if (req.session.username) {
+  if (req.session.user) {
     console.log('! Session already started')
-    // может надо на фронте куда-то сохранить username
-    return res.json({ valid: true, username: req.session.username })
+    return res.json({ isLoggedIn: true, user: req.session.user })
   } else {
     console.log('! You should login firstly')
-    return res.json({ valid: false })
+    return res.json({ isLoggedIn: false })
   }
 })
 
@@ -65,17 +63,13 @@ app.post('/login', [
     req.body.email
   ]
 
-  const isUserExist = users.find(user => user.email === req.body.email && user.password ===  req.body.password)
+  const currentUser = users.find(user => user.email === req.body.email && user.password ===  req.body.password)
 
-  if (isUserExist) {
-    req.session.username = req.body.email
-    // const sessionId = req.sessionID
-    // sessions[sessionId] = { username: req.session.username, userId: 1}
-    // res.set('Set-Cookie', `session=${sessionId}`)
+  if (currentUser) {
+    req.session.user = currentUser
     return res.send("Success")
   } else {
     return res.json({ errors: [{ path: 'email', msg: 'Email and/or password is not correct' }, { path: 'password', msg: 'Email and/or password is not correct' }]})
-    // return res.json("Failed")
   }
 })
 

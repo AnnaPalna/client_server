@@ -20,7 +20,7 @@ function Login() {
   useEffect(() => {
     axios.get('http://localhost:9000')
     .then(res => {
-      if (res.data.valid) {
+      if (res.data.isLoggedIn) {
         navigate('/')
       } else {
         navigate('/login')

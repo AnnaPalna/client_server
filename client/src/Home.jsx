@@ -26,8 +26,8 @@ function Home() {
   useEffect(() => {
     axios.get('http://localhost:9000')
     .then(res => {
-      if (res.data.valid) {
-        setName(res.data.username)
+      if (res.data.isLoggedIn) {
+        setName(res.data.user.email)
       } else {
         navigate('/login')
       }
