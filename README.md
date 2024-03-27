@@ -20,3 +20,7 @@
 или
 
 **npm run server** и **npm run client**
+
+
+https://github.com/AnnaPalna/client_server/assets/65242237/ea25e327-6a74-4a7f-b597-3ab2106f198d
+
